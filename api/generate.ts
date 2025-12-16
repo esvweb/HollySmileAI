@@ -80,9 +80,11 @@ export default async function handler(req: any, res: any) {
       contents: { parts: [imagePart, textPart] },
     });
 
+    // Safely access nested properties using optional chaining (?.)
     const candidates = response.candidates;
-    if (candidates && candidates.length > 0) {
-      const parts = candidates[0].content.parts;
+    const parts = candidates?.[0]?.content?.parts;
+
+    if (parts) {
       for (const part of parts) {
         if (part.inlineData && part.inlineData.data) {
           const resultImage = `data:image/png;base64,${part.inlineData.data}`;
